@@ -1,5 +1,10 @@
 - hosts: centos7
+
   become: yes
   become_method: su
+
+  vars:
+    fs_to_disable: [ cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf, vfat]
+
   roles:
     - ../roles/CentOS 7

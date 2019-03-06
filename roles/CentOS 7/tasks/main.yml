@@ -1,13 +1,16 @@
-- name: 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Scored) 1/2
+- name: 1.1.1 Disable unused filesystems (modprobe -r) 1/2
   modprobe:
-    name: cramfs
+    name: "{{ item }}"
     state: absent
+  loop: "{{ fs_to_disable }}"
   tags: [ level 1, server, workstation ]
 
-- name: 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Scored) 2/2
+
+- name: 1.1.1 Disable unused filesystems (modprobe.d) 2/2
   lineinfile:
     path:   /etc/modprobe.d/CIS.conf
     create: yes
-    line:   'install cramfs /bin/true'
-    regexp: '^install cramfs'
+    line:   'install {{ item }} /bin/true'
+    regexp: '^install {{ item }} '
+  loop: "{{ fs_to_disable }}"
   tags: [ level 1, server, workstation ]
