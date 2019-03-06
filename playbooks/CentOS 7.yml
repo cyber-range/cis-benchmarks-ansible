@@ -1,0 +1,5 @@
+- hosts: centos7
+  become: yes
+  become_method: su
+  roles:
+    - ../roles/CentOS 7
