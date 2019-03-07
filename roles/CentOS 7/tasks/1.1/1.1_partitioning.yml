@@ -1,0 +1,5 @@
+- fail:
+    msg: 'Separate partition must exist for {{ item }}'
+  when:  ansible_mounts|json_query('[?mount==`item`].mount') == []
+  loop:  directory_partitions
+  tags: [ level 2, server, workstation ]
