@@ -1,0 +1,10 @@
+- hosts: all
+
+  become: yes
+  become_method: su
+
+  tasks:
+    - name: CentOS 7 Benchmark
+      import_role:
+        name: CentOS 7
+      when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'"
