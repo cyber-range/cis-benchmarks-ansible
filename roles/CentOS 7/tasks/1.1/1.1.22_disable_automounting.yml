@@ -1,0 +1,10 @@
+- name:  1.1.22 Disable Automounting (Scored) 1/2
+  shell: systemctl | grep autofs
+  register: result
+  ignore_errors: yes
+  tags: [ level 1 server, level 2 workstation ]
+
+- name:  1.1.22 Disable Automounting (Scored) 2/2
+  command: systemctl disable autfs
+  when: result is succeeded
+  tags: [ level 1 server, level 2 workstation ]
