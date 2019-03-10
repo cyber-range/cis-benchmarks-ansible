@@ -1,0 +1,25 @@
+- name: 1.2.1 Ensure package manager repositories are configured (Not Scored) 1/2
+  command: yum repolist
+  args:
+    warn: no
+  register: result
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 1.2.1 Ensure package manager repositories are configured (Not Scored) 2/2
+  debug:
+    msg: "{{ result.stderr_lines | union(result.stdout_lines) }}"
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 1.2.2 Ensure GPG keys are configured (Not Scored) 1/2
+  command: rpm -q gpg-pubkey --qf '%{name}-%{version}-%{release} --> %{summary}\n'
+  args:
+    warn: no
+  register: result
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 1.2.2 Ensure GPG keys are configured (Not Scored) 2/2
+  debug:
+    msg: "{{ result.stderr_lines | union(result.stdout_lines) }}"
+  tags: [ level 1 server, level 1 workstation ]
+
+- import_tasks: 1.2.3_gpgcheck.yml
