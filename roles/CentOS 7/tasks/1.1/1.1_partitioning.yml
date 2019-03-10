@@ -2,7 +2,7 @@
   fail:
     msg: 'Separate partition must exist for {{ item }}'
   when:  ansible_mounts|json_query('[?mount==`item`].mount') == []
-  loop: [ /tmp, /var, /var/tmp, /var/log, /var/log/audit, /var/log/home ]
+  loop: [ /tmp, /var, /var/tmp, /var/log, /var/log/audit, /home ]
   tags: [ level 2 server, level 2 workstation ]
 
 - name: 1.1.3-5 Ensure nodev,nosuid,noexec options set on /tmp partition (Scored)
