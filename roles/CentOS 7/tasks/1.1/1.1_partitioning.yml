@@ -1,5 +1,42 @@
-- fail:
+- name: 1.1.2,6,7,11,12,13 Check directory has its own partition (Scored)
+  fail:
     msg: 'Separate partition must exist for {{ item }}'
   when:  ansible_mounts|json_query('[?mount==`item`].mount') == []
-  loop:  directory_partitions
-  tags: [ level 2, server, workstation ]
+  loop: [ /tmp, /var, /var/tmp, /var/log, /var/log/audit, /var/log/home ]
+  tags: [ level 2 server, level 2 workstation ]
+
+- name: 1.1.3-5 Ensure nodev,nosuid,noexec options set on /tmp partition (Scored)
+  mount:
+    path: /tmp
+    src: "{{ ansible_mounts[?mount==`/tmp`].device }}"
+    fstype: "{{ ansible_mounts[?mount==`/tmp`].fstype }}"
+    opts: 'nodev,nosuid,noexec'
+    state: mounted
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 1.1.8-10 Ensure nodev,nosuid,noexec options set on /var/tmp partition (Scored)
+  mount:
+    path: /var/tmp
+    src: "{{ ansible_mounts[?mount==`/var/tmp`].device }}"
+    fstype: "{{ ansible_mounts[?mount==`/var/tmp`].fstype }}"
+    opts: 'nodev,nosuid,noexec'
+    state: mounted
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 1.1.14 Ensure nodev options set on /home partition (Scored)
+  mount:
+    path: /home
+    src: "{{ ansible_mounts[?mount==`/home`].device }}"
+    fstype: "{{ ansible_mounts[?mount==`/home`].fstype }}"
+    opts: 'nodev'
+    state: mounted
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 1.1.15 Ensure nodev,nosuid,noexec options set on /dev/shm partition (Scored)
+  mount:
+    path: /dev/shm
+    src: "{{ ansible_mounts[?mount==`/dev/shm`].device }}"
+    fstype: "{{ ansible_mounts[?mount==`/dev/shm`].fstype }}"
+    opts: 'nodev,nosuid,noexec'
+    state: mounted
+  tags: [ level 1 server, level 1 workstation ]

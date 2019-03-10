@@ -1,2 +1,18 @@
 - import_tasks: 1.1.1_disable_unused_fs.yml
+
 - import_tasks: 1.1_partitioning.yml
+
+- name: 1.1.21 Ensure sticky bit is set on all world-writable directories (Scored)
+  shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t"
+  tags: [ level 1 server, level 1 workstation ]
+
+- name:  1.1.22 Disable Automounting (Scored) 1/2
+  shell: systemctl | grep autofs
+  register: result
+  ignore_errors: yes
+  tags: [ wip, level 1 server, level 2 workstation ]
+
+- name:  1.1.22 Disable Automounting (Scored) 2/2
+  command: systemctl disable autfs
+  when: result is succeeded
+  tags: [ wip, level 1 server, level 2 workstation ]

@@ -1,2 +1,1 @@
-fs_to_disable:        [ cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf, vfat ]
-directory_partitions: [ /tmp, /var, /var/tmp, /var/log, /var/log/audit, /var/log/home ]
+fs_to_disable: [ cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf, vfat ]
