@@ -3,7 +3,7 @@
     name: "{{ item }}"
     state: absent
   loop: "{{ fs_to_disable }}"
-  tags: [ level 1, server, workstation ]
+  tags: [ level 1 server, level 1 workstation ]
 
 
 - name: 1.1.1 Disable unused filesystems (modprobe.d) 2/2
@@ -13,4 +13,4 @@
     line:   'install {{ item }} /bin/true'
     regexp: '^install {{ item }} '
   loop: "{{ fs_to_disable }}"
-  tags: [ level 1, server, workstation ]
+  tags: [ level 1 server, level 1 workstation ]

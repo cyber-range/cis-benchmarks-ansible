@@ -5,5 +5,5 @@
 Example:
 
 ```
->  ansible-playbook 'playbooks/CentOS 7.yml' --ask-become-pass --tags 'level 1,server'
+>  ansible-playbook 'playbooks/CentOS 7.yml' --ask-become-pass --tags 'level 1 server,level 2 server'
 ```
