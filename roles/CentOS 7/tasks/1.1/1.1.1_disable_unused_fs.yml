@@ -1,4 +1,4 @@
-- name: 1.1.1 Disable unused filesystems (modprobe -r) 1/2
+- name: 1.1.1 Disable unused filesystems 1/2 – modprobe -r
   modprobe:
     name: "{{ item }}"
     state: absent
@@ -6,7 +6,7 @@
   tags: [ level 1 server, level 1 workstation ]
 
 
-- name: 1.1.1 Disable unused filesystems (modprobe.d) 2/2
+- name: 1.1.1 Disable unused filesystems 2/2 – modprobe.d
   lineinfile:
     path:   /etc/modprobe.d/CIS.conf
     create: yes

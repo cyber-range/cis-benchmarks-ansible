@@ -1,11 +1,11 @@
-- name: 1.3.1 Ensure AIDE is installed (Scored) (install AIDE)
+- name: 1.3.1 Ensure AIDE is installed (Scored) 1/2  – install AIDE
   yum:
     name: aide
     state: present
   register: result
   tags: [ level 1 server, level 1 workstation ]
 
-- name: 1.3.1 Ensure AIDE is installed (Scored) (initialize AIDE)
+- name: 1.3.1 Ensure AIDE is installed (Scored) 2/2 – initialize AIDE
   shell: "/usr/sbin/aide --init && mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz" # FIXME "aide" should be in $PATH
   when: result is changed
   tags: [ level 1 server, level 1 workstation ]
