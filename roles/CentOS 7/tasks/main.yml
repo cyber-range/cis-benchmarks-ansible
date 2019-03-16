@@ -7,3 +7,4 @@
 - import_tasks: 1.7/main.yml
 - import_tasks: 1.8/main.yml
 - import_tasks: 2.1/main.yml
+- import_tasks: 2.2/main.yml

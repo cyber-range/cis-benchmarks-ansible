@@ -1,0 +1,53 @@
+- name: 2.2.1.1 Ensure time synchronization is in use (Not Scored) 1/2
+  yum:
+    name: "{% if time_sync_service == 'ntp' %}chrony{% else %}ntp{% endif %}"
+    state: absent
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 2.2.1.1 Ensure time synchronization is in use (Not Scored) 2/2
+  yum:
+    name: "{{ time_sync_service }}"
+    state: present
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 2.2.1.2 Ensure ntp is configured 1/2 – /etc/ntp.conf
+  blockinfile:
+    path: /etc/ntp.conf
+    block: |
+      restrict -4 default kod nomodify notrap nopeer noquery
+      restrict -6 default kod nomodify notrap nopeer noquery
+  when: time_sync_service == 'ntp'
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 2.2.1.2 Ensure ntp is configured 2/2 – /etc/sysconfig/ntpd
+  ini_file:
+    path: /etc/sysconfig/ntpd
+    section: null
+    option: OPTIONS
+    value: '"-u ntp:ntp"'
+    no_extra_spaces: yes
+  when: time_sync_service == 'ntp'
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 2.2.1.3 Ensure chrony is configured (Scored)
+  ini_file:
+    path: /etc/sysconfig/chronyd
+    section: null
+    option: OPTIONS
+    value: '"-u chrony"'
+    no_extra_spaces: yes
+  when: time_sync_service == 'chrony'
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 2.2.2 Ensure X Window System is not installed (Scored)
+  yum:
+    name: xorg-x11*
+    state: absent
+  tags: [ level 1 server ]
+
+- name: 2.2.3 Ensure Avahi Server is not enabled (Scored)
+  shell: "systemctl is-enabled avahi-daemon | grep -vq 'enabled' && systemctl disable avahi-daemon"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ level 1 server, level 1 workstation ]
