@@ -1,1 +1,4 @@
 fs_to_disable: [ cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf, vfat ]
+
+warning_banner: |
+  Authorized uses only. All activity may be monitored and reported.
