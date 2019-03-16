@@ -1,0 +1,48 @@
+- name: 2.1.1 Ensure chargen services are not enabled (Scored)
+  shell: "/usr/sbin/chkconfig --list | egrep 'chargen-(dgram|stream)' && /usr/sbin/chkconfig chargen-dgram off && /usr/sbin/chkconfig chargen-stream off"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ wip, level 1 server, level 1 workstation ]
+
+- name: 2.1.2 Ensure daytime services are not enabled (Scored)
+  shell: "/usr/sbin/chkconfig --list | egrep 'daytime-(dgram|stream)' && /usr/sbin/chkconfig daytime-dgram off && /usr/sbin/chkconfig daytime-stream off"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ wip, level 1 server, level 1 workstation ]
+
+- name: 2.1.3 Ensure discard services are not enabled (Scored)
+  shell: "/usr/sbin/chkconfig --list | egrep 'discard-(dgram|stream)' && /usr/sbin/chkconfig discard-dgram off && /usr/sbin/chkconfig discard-stream off"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ wip, level 1 server, level 1 workstation ]
+
+- name: 2.1.4 Ensure echo services are not enabled (Scored)
+  shell: "/usr/sbin/chkconfig --list | egrep 'echo-(dgram|stream)' && /usr/sbin/chkconfig echo-dgram off && /usr/sbin/chkconfig echo-stream off"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ wip, level 1 server, level 1 workstation ]
+
+- name: 2.1.5 Ensure time services are not enabled (Scored)
+  shell: "/usr/sbin/chkconfig --list | egrep 'time-(dgram|stream)' && /usr/sbin/chkconfig time-dgram off && /usr/sbin/chkconfig time-stream off"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ wip, level 1 server, level 1 workstation ]
+
+- name: 2.1.6 Ensure tftp server is not enabled (Scored)
+  shell: "/usr/sbin/chkconfig --list | grep tftp && /usr/sbin/chkconfig tftp off"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ wip, level 1 server, level 1 workstation ]
+
+- name: 2.1.7 Ensure xinetd is not enabled (Scored)
+  shell: "systemctl is-enabled xinetd | grep -vq 'enabled' && systemctl disable xinetd"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ wip, level 1 server, level 1 workstation ]
