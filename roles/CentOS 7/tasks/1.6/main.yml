@@ -1,0 +1,4 @@
+- name: 1.6 Mandatory Access Control (with SELinux)
+  debug:
+    msg: "SELinux configuration skipped. AppArmor preferred."
+  tags: [ level 2 server, level 2 workstation ]

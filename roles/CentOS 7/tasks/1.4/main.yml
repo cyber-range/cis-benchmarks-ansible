@@ -15,32 +15,27 @@
   ignore_errors: yes
   tags: [ level 1 server, level 1 workstation ]
 
-- name: 1.4.2 Ensure bootloader password is set (Scored) 1/2
-  command: egrep '^GRUB2_PASSWORD=.+' /boot/grub2/grub.cfg
+- name: 1.4.2 Ensure bootloader password is set (Scored)
+  command: egrep '^GRUB2_PASSWORD=.+' /boot/grub2/user.cfg
   register: result
-  failed_when: result.rc > 1
-  tags: [ wip, level 1 server, level 1 workstation ]
-
-- name: 1.4.2 Ensure bootloader password is set (Scored) 2/2
-  fail:
-    msg: "Please ensure bootloader password is set using 'grub2-setpassword'"
-  when: result.rc == 0
-  tags: [ wip, level 1 server, level 1 workstation ]
+  failed_when: result.rc == 1
+  changed_when: False
+  tags: [ level 1 server, level 1 workstation ]
 
 - name: 1.4.3 Ensure authentication required for single user mode (Scored) 1/2 – rescue
   ini_file:
     path: /usr/lib/systemd/system/rescue.service
-    section: main
+    section: Service
     option: ExecStart
-    value: '-/bin/sh -c "/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
+    value: '-/bin/sh -c "/usr/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
     no_extra_spaces: yes
-  tags: [ wip, level 1 server, level 1 workstation ]
+  tags: [ level 1 server, level 1 workstation ]
 
 - name: 1.4.3 Ensure authentication required for single user mode (Scored) 2/2 – emergency
   ini_file:
     path: /usr/lib/systemd/system/emergency.service
-    section: main
+    section: Service
     option: ExecStart
-    value: '-/bin/sh -c "/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
+    value: '-/bin/sh -c "/usr/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
     no_extra_spaces: yes
-  tags: [ wip, level 1 server, level 1 workstation ]
+  tags: [ level 1 server, level 1 workstation ]

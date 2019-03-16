@@ -1,34 +1,31 @@
 - name: 1.5.1 Ensure core dumps are restricted (Scored) 1/2 – /etc/security/limits.conf
   lineinfile:
     path: /etc/security/limits.conf
-    regex: '^\* hard core [01]$'
-    live: '* hard core 0'
-  tags: [ wip, level 1 server, level 1 workstation ]
+    regex: '^\* +hard +core +[01]$'
+    insertbefore: '^# End of file$'
+    line: '*                hard    core            0'
+  tags: [ level 1 server, level 1 workstation ]
 
 - name: 1.5.1 Ensure core dumps are restricted (Scored) 2/2 – sysctl
   sysctl:
     name: fs.suid_dumpable
     value: 0
-  tags: [ wip, level 1 server, level 1 workstation ]
+  tags: [ level 1 server, level 1 workstation ]
 
-- name: Ensure XD/NX support is enabled (Not Scored)
-  shell: "dmesg | grep NX"
-  register: result # TODO
-  tags: [ wip, level 1 server, level 1 workstation ]
-
-- debug:
-    var: result
-  tags: [ wip, level 1 server, level 1 workstation ]
-
+- name: 1.5.2 Ensure XD/NX support is enabled (Not Scored)
+  shell: "dmesg | egrep 'NX .+ protection: active'"
+  failed_when: result.rc == 1
+  changed_when: False
+  tags: [ level 1 server, level 1 workstation ]
 
 - name: 1.5.3 Ensure address space layout randomization (ASLR) is enabled (Scored)
   sysctl:
     name: kernel.randomize_va_space
     value: 2
-  tags: [ wip, level 1 server, level 1 workstation ]
+  tags: [ level 1 server, level 1 workstation ]
 
 - name: 1.5.4 Ensure prelink is disabled (Scored)
   yum:
     name: prelink
     state: absent
-  tags: [ wip, level 1 server, level 1 workstation ]
+  tags: [ level 1 server, level 1 workstation ]
