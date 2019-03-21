@@ -15,6 +15,7 @@
   args:
     warn: no
   register: result
+  ignore_errors: yes
   tags: [ level 1 server, level 1 workstation ]
 
 - name: 1.2.2 Ensure GPG keys are configured (Not Scored) 2/2

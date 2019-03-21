@@ -11,6 +11,7 @@
   shell: "egrep '^gpgcheck ?= ?0' --with-filename --line-number /etc/yum.repos.d/*"
   register: result
   failed_when: result.rc > 1
+  changed_when: False
   tags: [ level 1 server, level 1 workstation ]
 
 - name: 1.2.3 Ensure gpgcheck is globally activated (Scored) 3/4 – /etc/yum.d/*
