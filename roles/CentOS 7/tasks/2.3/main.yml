@@ -1,0 +1,6 @@
+- name: 2.3.1-5 Ensure service clients are not installed (Scored)
+  yum:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ service_clients_to_remove }}"
+  tags: [ level 1 server, level 1 workstation ]

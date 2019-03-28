@@ -1,4 +1,33 @@
-fs_to_disable: [ cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf, vfat ]
+fs_to_disable:      [ cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf, vfat ]
+services_to_disable:
+  - avahi-daemon # zeroconf service discovery
+  - nfs
+  - nfs-server
+  - rpc-bind
+  - dhcpd
+  - slapd        # LDAP Server
+  - named        # DNS server
+  - vsftpd       # FTP server
+  - httpd        # Web server
+  - dovecot      # IMAP and POP3 server
+  - smb          # Samba
+  - squid        # HTTP Proxy Server
+  - snmpd
+  - ypserv       # NIS Server (Yellow Pages)
+  - rsh.socket
+  - rlogin.socket
+  - rexec.socket
+  - telnet.socket
+  - tftp.socket
+  - rsyncd
+  - ntalk
+
+service_clients_to_remove:
+  - ypbind # NIS Client (Yellow Pages)
+  - rsh
+  - talk
+  - telnet
+  - openldap-clients
 
 warning_banner: |
   Authorized uses only. All activity may be monitored and reported.

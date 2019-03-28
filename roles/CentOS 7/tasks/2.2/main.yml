@@ -45,9 +45,25 @@
     state: absent
   tags: [ level 1 server ]
 
-- name: 2.2.3 Ensure Avahi Server is not enabled (Scored)
-  shell: "systemctl is-enabled avahi-daemon | grep -vq 'enabled' && systemctl disable avahi-daemon"
+- name: 2.2.3,2.2.5-14,2.2.16-21 Ensure unused services are not enabled (Scored)
+  shell: "systemctl is-enabled {{ item }} | grep -vq 'enabled' && systemctl disable {{ item }}"
   register: result
   failed_when: False
   changed_when: result.rc == 0
+  loop: "{{ services_to_disable }}"
+  tags: [ level 1 server, level 1 workstation ]
+
+- name: 2.2.4 Ensure CUPS is not enabled (Scored)
+  shell: "systemctl is-enabled cups | grep -vq 'enabled' && systemctl disable cups"
+  register: result
+  failed_when: False
+  changed_when: result.rc == 0
+  tags: [ level 1 server, level 2 workstation ]
+
+- name: 2.2.15 Ensure mail transfer agent is configured for local-only mode (Scored)
+  ini_file:
+    path: /etc/postfix/main.cf
+    section: RECEIVING MAIL
+    option: inet_interfaces
+    value: loopback-only
   tags: [ level 1 server, level 1 workstation ]
