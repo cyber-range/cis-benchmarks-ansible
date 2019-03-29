@@ -1,0 +1,2 @@
+- name: make grub2 config
+  command: /sbin/grub2-mkconfig > /boot/grub2/grub.cfg
